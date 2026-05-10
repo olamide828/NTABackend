@@ -64,6 +64,33 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Add this to your routes/events.js (public route)
+router.get('/verify/:code', async (req, res) => {
+  try {
+    const registration = await Registration.findOne({
+      confirmationCode: req.params.code.toUpperCase()
+    }).populate('event', 'title date time location category imageUrl')
+
+    if (!registration) {
+      return res.status(404).json({ success: false, message: 'No registration found for this code.' })
+    }
+
+    res.json({
+      success: true,
+      data: {
+        confirmationCode: registration.confirmationCode,
+        name: `${registration.firstName} ${registration.lastName}`,
+        email: registration.email,
+        numberOfGuests: registration.numberOfGuests,
+        status: registration.status,
+        event: registration.event,
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error.' })
+  }
+});
+
 // ─── POST /api/events/:id/register ───────────────────────────────────────────
 // Register for an event (public)
 router.post(
