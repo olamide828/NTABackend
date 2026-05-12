@@ -23,7 +23,7 @@ mongoose
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, 'https://ntatestimony.vercel.app', 'http://localhost:5173'] || "*",
+    origin: [process.env.FRONTEND_URL, 'https://ntatestimony.vercel.app', 'https://ntatestimonybranch.vercel.app', 'http://localhost:5173'] || "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
